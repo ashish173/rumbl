@@ -1,7 +1,12 @@
 defmodule Rumbl.Videos.Video do
-  use Ecto.Schema
-  import Ecto.Changeset
+  # use Ecto.Schema
+  # import Ecto.Changeset
+  use RumblWeb, :model
+
   alias Rumbl.Videos.Video
+
+
+  use RumblWeb, :model
 
 
   schema "videos" do

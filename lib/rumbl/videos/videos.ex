@@ -5,7 +5,6 @@ defmodule Rumbl.Videos do
 
   import Ecto.Query, warn: false
   alias Rumbl.Repo
-
   alias Rumbl.Videos.Video
 
   @doc """
@@ -17,8 +16,8 @@ defmodule Rumbl.Videos do
       [%Video{}, ...]
 
   """
-  def list_videos do
-    Repo.all(Video)
+  def list_videos(user) do
+    Repo.all(user_videos(user))
   end
 
   @doc """
@@ -35,7 +34,9 @@ defmodule Rumbl.Videos do
       ** (Ecto.NoResultsError)
 
   """
-  def get_video!(id), do: Repo.get!(Video, id)
+  def get_video!(id, user) do 
+    Repo.get!(user_videos(user), id)
+  end
 
   @doc """
   Creates a video.
@@ -49,8 +50,9 @@ defmodule Rumbl.Videos do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_video(attrs \\ %{}) do
-    %Video{}
+  def create_video(attrs \\ %{}, user) do
+    user
+    |> Ecto.build_assoc(:videos)
     |> Video.changeset(attrs)
     |> Repo.insert()
   end
@@ -100,5 +102,10 @@ defmodule Rumbl.Videos do
   """
   def change_video(%Video{} = video) do
     Video.changeset(video, %{})
+  end
+
+  # return a query for videos of a user
+  defp user_videos(user) do
+    Ecto.assoc(user, :videos)
   end
 end
