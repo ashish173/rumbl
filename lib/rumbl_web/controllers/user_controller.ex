@@ -1,10 +1,14 @@
 defmodule RumblWeb.UserController do
   use RumblWeb, :controller
+
+  # import Phoenix.Controller
+  
   require Logger
-  plug :authenticate when action in [:index, :show]
+  plug :authenticate_user when action in [:index, :show]
 
   alias Rumbl.Repo
   alias Rumbl.User
+  # alias Rumbl.Router.Helpers
 
   def index(conn, _params) do
     users = Repo.all(Rumbl.User)
@@ -36,15 +40,15 @@ defmodule RumblWeb.UserController do
 
   #### Private functions ####
 
-  defp authenticate(conn, _opts) do
-    Logger.debug "CONN IN AUTHENTICATE #{inspect conn}"
-    if conn.assigns.current_user do
-      conn
-    else
-      conn
-      |> put_flash(:error, "You must be logged in to access this page.")
-      |> redirect(to: page_path(conn, :index))
-      |> halt()
-    end
-  end
+  # def authenticate_user(conn, _opts) do
+  #   Logger.debug "CONN IN AUTHENTICATE #{inspect conn}"
+  #   if conn.assigns.current_user do
+  #     conn
+  #   else
+  #     conn
+  #     |> put_flash(:error, "You must be logged in to access this page.")
+  #     |> redirect(to: Helpers.page_path(conn, :index))
+  #     |> halt()
+  #   end
+  # end
 end
