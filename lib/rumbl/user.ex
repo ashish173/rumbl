@@ -20,6 +20,8 @@ defmodule Rumbl.User do
     #CHANGE: Use validate required for presence
     |> validate_required([:name, :username])
     |> validate_length(:username, min: 1, max: 20)
+    # Add a validation error message for the exception
+    |> unique_constraint(:username)
   end
 
   def registration_changeset(model, params) do

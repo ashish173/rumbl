@@ -2,8 +2,8 @@ defmodule Rumbl.Videos do
   @moduledoc """
   The Videos context.
   """
-
   import Ecto.Query, warn: false
+
   alias Rumbl.Repo
   alias Rumbl.Videos.Video
 
